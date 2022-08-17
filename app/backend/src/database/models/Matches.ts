@@ -35,7 +35,7 @@ Matches.init({
   awayTeamGoals: {
     type: INTEGER,
     allowNull: false,
-    field: 'away_team_gols',
+    field: 'away_team_goals',
   },
   inProgress: {
     type: BOOLEAN,
