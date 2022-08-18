@@ -1,17 +1,20 @@
 import UserModel from '../database/models/Users';
-import { IUserService, Login } from '../interface/IUser';
+import { IUserService, IUser, Login } from '../interface/IUser';
 import Validations from './Validations';
 import Token from './Token';
 
 class UserService implements IUserService {
   login = async (data: Login): Promise<string> => {
+    await Validations.ValidBodyLogin(data);
+
     const user: UserModel | null = await UserModel.findOne(
       {
         raw: true, where: { email: data.email },
       },
     );
 
-    await Validations.ValidLogin(user as UserModel, data.password);
+    const { password } = user as IUser;
+    await Validations.ValidPassword(password, data.password);
 
     const token = Token.makeToken(user as UserModel);
     return token;
