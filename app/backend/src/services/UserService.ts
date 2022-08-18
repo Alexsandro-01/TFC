@@ -1,6 +1,7 @@
 import UserModel from '../database/models/Users';
 import { IUserService, IUser, Login } from '../interface/IUser';
 import Validations from './Validations';
+import ErrorHandler from '../utils/ErrorHandler';
 import Token from './Token';
 
 class UserService implements IUserService {
@@ -12,6 +13,8 @@ class UserService implements IUserService {
         raw: true, where: { email: data.email },
       },
     );
+
+    if (!user) ErrorHandler.unauthorized();
 
     const { password } = user as IUser;
     await Validations.ValidPassword(password, data.password);

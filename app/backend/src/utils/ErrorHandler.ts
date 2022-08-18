@@ -4,6 +4,12 @@ class ErrorHandler {
     erro.name = 'badRequest';
     throw erro;
   }
+
+  static unauthorized() {
+    const erro = new Error('Incorrect email or password');
+    erro.name = 'unauthorized';
+    throw erro;
+  }
 }
 
 export default ErrorHandler;

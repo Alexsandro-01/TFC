@@ -6,7 +6,7 @@ import Cript from './Cript';
 class Validations {
   static async ValidPassword(userPassword: string, reqPassword: string) {
     if (!Cript.decript(reqPassword, userPassword)) {
-      throw new Error('empity user');
+      ErrorHandler.unauthorized();
     }
   }
 
