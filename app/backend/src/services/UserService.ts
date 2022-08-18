@@ -3,7 +3,7 @@ import { IUserService, Login } from '../interface/IUser';
 import Validations from './Validations';
 import Token from './Token';
 
-class UserService implements IUserService<UserModel> {
+class UserService implements IUserService {
   login = async (data: Login): Promise<string> => {
     const user: UserModel | null = await UserModel.findOne(
       {

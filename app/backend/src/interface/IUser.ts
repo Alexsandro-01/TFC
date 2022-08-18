@@ -1,4 +1,4 @@
-interface IUserService<T> {
+interface IUserService {
   login(data: Login): Promise<string>
 }
 
