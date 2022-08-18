@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import userRouter from './routes/userRoute';
 
 class App {
@@ -8,6 +9,9 @@ class App {
     this.app = express();
 
     this.config();
+    this.app.use(cors());
+
+    this.app.use('/', userRouter);
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
@@ -26,7 +30,7 @@ class App {
   }
 
   public start(PORT: string | number):void {
-    this.app.use('/', userRouter);
+    // this.app.use('/', userRouter);
 
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
   }
