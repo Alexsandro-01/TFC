@@ -1,5 +1,8 @@
 import * as express from 'express';
+import 'express-async-errors';
+
 import * as cors from 'cors';
+import ErrorMiddleware from './middlewares/errorMiddleware';
 import userRouter from './routes/userRoute';
 
 class App {
@@ -15,6 +18,8 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+
+    this.app.use(ErrorMiddleware.error);
   }
 
   private config():void {
@@ -30,8 +35,6 @@ class App {
   }
 
   public start(PORT: string | number):void {
-    // this.app.use('/', userRouter);
-
     this.app.listen(PORT, () => console.log(`Running on port ${PORT}`));
   }
 }
