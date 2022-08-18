@@ -3,6 +3,16 @@ export const validLogin = {
   "password": "secret_admin"
 }
 
+export const invalidLoginPassword = {
+  "email": "admin@admin.com",
+  "password": "secret_admi"
+}
+
+export const invalidLoginEmail = {
+  "email": "admin@admin.com.br",
+  "password": "secret_admin"
+}
+
 export const validReturnUser = {
   id: 1,
   username: 'Admin',
