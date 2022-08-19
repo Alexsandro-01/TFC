@@ -4,6 +4,7 @@ import 'express-async-errors';
 import * as cors from 'cors';
 import ErrorMiddleware from './middlewares/errorMiddleware';
 import userRouter from './routes/userRoute';
+import teamsRouter from './routes/teamsRoute';
 
 class App {
   public app: express.Express;
@@ -15,6 +16,7 @@ class App {
     this.app.use(cors());
 
     this.app.use('/', userRouter);
+    this.app.use('/', teamsRouter);
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
