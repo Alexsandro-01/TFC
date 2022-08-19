@@ -22,12 +22,33 @@ class UserService implements IUserService {
     const token = Token.makeToken(user as UserModel);
     return token;
   };
+
+  validateLogin = async (token: string | undefined): Promise<{ role: string; }> => {
+    if (!token) {
+      ErrorHandler.unauthorized();
+    }
+
+    const reqUser = Token.verifyToken(token as string);
+    const user = await UserModel.findOne(
+      {
+        raw: true, where: { email: reqUser.email, username: reqUser.username },
+      },
+    );
+
+    if (!user) ErrorHandler.unauthorized();
+
+    const { role } = user as IUser;
+
+    return { role };
+  };
 }
 
 export default UserService;
 
 // const a = new UserService();
-// const b = a.login({ email: 'admin@admin.com', password: 'secret_admin' });
+// const b = a
+//   // eslint-disable-next-line max-len
+//   .validateLogin('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiJ9LCJpYXQiOjE2NjA5MzI3MDN9.glE1RikKfGUdMV_XHxX0xXp_A-kZg_Ns-O-LD4D8E9o');
 // console.log(b);
 // const s = Cript.decript(
 //   'secret_admin',
