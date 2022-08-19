@@ -42,6 +42,28 @@ describe('Behavior of the /login route', () => {
       const body = response.body;
       chai.expect(body.token).to.equal(token);
     });
+
+    it('Should return the user role if valid token passed on header authorization key in /login/validate route', async () => {
+      const response = await chai.request(app)
+        .get('/login/validate')
+        .set({
+          authorization: token
+        });
+
+      const body = response.body;
+      chai.expect(body.role).to.equal(validReturnUser.role);
+    });
+
+    it('Should return status 200 if valid token passed on header authorization key in /login/validate route', async () => {
+      const response = await chai.request(app)
+        .get('/login/validate')
+        .set({
+          authorization: token
+        });
+
+      const body = response.body;
+      chai.expect(body.role).to.equal(validReturnUser.role);
+    });
   });
 
   describe('Failure cases', () => {
