@@ -1,5 +1,6 @@
 interface ITeamsService<> {
-  getAll(): Promise<ITeams[]>
+  getAll(): Promise<ITeams[]>,
+  getById(id: number): Promise<ITeams | Record<string, string>>
 }
 
 interface ITeams {

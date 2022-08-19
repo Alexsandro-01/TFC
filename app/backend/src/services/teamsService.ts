@@ -6,6 +6,20 @@ class TeamsService implements ITeamsService {
     const teams = await TeamsModel.findAll({ raw: true });
     return teams;
   };
+
+  getById = async (id: number): Promise<ITeams | Record<string, string>> => {
+    const team = await TeamsModel.findOne(
+      {
+        raw: true,
+        where: { id },
+      },
+    );
+
+    if (!team) {
+      return {};
+    }
+    return team as ITeams;
+  };
 }
 
 export default TeamsService;
