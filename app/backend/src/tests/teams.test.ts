@@ -11,19 +11,38 @@ import chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 
 import { allTeams } from './mocks';
+import { ITeams } from '../interface/ITeams'
 
 describe('Behavior of the /teams route', () => {
-  beforeEach(() => {
-    sinon.stub(Teams, 'findAll').resolves(allTeams as Teams[]);
-  });
+  // beforeEach(() => {
+  //   sinon.stub(Teams, 'findAll').resolves(allTeams as Teams[]);
+  // });
+
+  // before(() => {
+  //   const team = allTeams[0];
+  //   sinon.stub(Teams, 'findOne').resolves(team as Teams);
+  // })
 
   afterEach(sinon.restore);
 
   it('Should return all teams in database when access /teams route', async () => {
+    sinon.stub(Teams, 'findAll').resolves(allTeams as Teams[]);
+
     const response: Response = await chai.request(app)
       .get('/teams');
 
     const body = response.body;
     chai.expect(body).to.deep.equal(allTeams);
-  })
+  });
+
+  it('Shoul return a team according to its id on /teams/:id', async () => {
+    const team = allTeams[0];
+    sinon.stub(Teams, 'findOne').resolves(team as Teams);
+
+    const response: Response = await chai.request(app)
+      .get('/teams/1');
+
+    const body = response.body;
+    chai.expect(body).to.deep.equal(allTeams[0]);
+  });
 });
