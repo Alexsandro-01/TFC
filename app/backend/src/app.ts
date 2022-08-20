@@ -5,6 +5,7 @@ import * as cors from 'cors';
 import ErrorMiddleware from './middlewares/errorMiddleware';
 import userRouter from './routes/userRoute';
 import teamsRouter from './routes/teamsRoute';
+import matchesRoute from './routes/matchesRoute';
 
 class App {
   public app: express.Express;
@@ -17,6 +18,7 @@ class App {
 
     this.app.use('/', userRouter);
     this.app.use('/', teamsRouter);
+    this.app.use('/', matchesRoute);
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
