@@ -1,5 +1,5 @@
 import UserModel from '../database/models/Users';
-import { IUserService, IUser, Login } from '../interface/IUser';
+import { IUserService, IUser, Login, tokenData } from '../interface/IUser';
 import Validations from './Validations';
 import ErrorHandler from '../utils/ErrorHandler';
 import Token from './Token';
@@ -40,6 +40,15 @@ class UserService implements IUserService {
     const { role } = user as IUser;
 
     return { role };
+  };
+
+  findUserByNameAndEmail = async (reqUser: tokenData): Promise<IUser | null> => {
+    const user: IUser | null = await UserModel.findOne(
+      {
+        raw: true, where: { email: reqUser.email, username: reqUser.username },
+      },
+    );
+    return user;
   };
 }
 

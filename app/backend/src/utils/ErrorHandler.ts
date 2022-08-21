@@ -10,6 +10,12 @@ class ErrorHandler {
     erro.name = 'unauthorized';
     throw erro;
   }
+
+  static invalidToken() {
+    const erro = new Error('Token must be a valid token');
+    erro.name = 'unauthorized';
+    throw erro;
+  }
 }
 
 export default ErrorHandler;

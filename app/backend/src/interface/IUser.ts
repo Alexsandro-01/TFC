@@ -1,6 +1,7 @@
 interface IUserService {
   login(data: Login): Promise<string>
   validateLogin(data: string | undefined): Promise<{ role: string }>
+  findUserByNameAndEmail(reqUser: tokenData): Promise<IUser | null>
 }
 
 interface IUser {
