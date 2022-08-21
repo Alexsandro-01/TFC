@@ -14,5 +14,6 @@ const matchesController = new MatchesController(matchesService);
 
 route.get('/matches', matchesController.getAll);
 route.post('/matches', authMiddleware.verifyUser, matchesController.addNewMatch);
+route.patch('/matches/:id/finish', authMiddleware.verifyUser, matchesController.finishMatch);
 
 export default route;

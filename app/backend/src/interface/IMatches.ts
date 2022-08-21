@@ -1,6 +1,7 @@
 interface IMatchService {
   getAll(): Promise<IMatche[]>
   addNewMatch(newMatchData: ICreateMatche): Promise<ICreateMatche>
+  finishMatch(id: IMatche['id']): Promise<void>
 }
 
 interface ICreateMatche {

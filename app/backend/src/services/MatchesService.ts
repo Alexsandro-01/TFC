@@ -26,6 +26,19 @@ class MatchesService implements IMatchService {
     const response = await Matches.create(newMatchData);
     return response;
   };
+
+  finishMatch = async (id: IMatche['id']): Promise<void> => {
+    await Matches.update(
+      {
+        inProgress: false,
+      },
+      {
+        where: {
+          id,
+        },
+      },
+    );
+  };
 }
 
 export default MatchesService;
