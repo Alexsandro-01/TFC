@@ -16,6 +16,12 @@ class ErrorHandler {
     erro.name = 'unauthorized';
     throw erro;
   }
+
+  static equalteams() {
+    const erro = new Error('It is not possible to create a match with two equal teams');
+    erro.name = 'unauthorized';
+    throw erro;
+  }
 }
 
 export default ErrorHandler;
