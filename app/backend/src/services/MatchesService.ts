@@ -1,6 +1,6 @@
 import Matches from '../database/models/Matches';
 import Teams from '../database/models/Teams';
-import { IMatchService, IMatche } from '../interface/IMatches';
+import { IMatchService, IMatche, ICreateMatche } from '../interface/IMatches';
 
 class MatchesService implements IMatchService {
   getAll = async (): Promise<IMatche[]> => {
@@ -20,6 +20,11 @@ class MatchesService implements IMatchService {
     });
 
     return response as Matches[];
+  };
+
+  addNewMatch = async (newMatchData: ICreateMatche): Promise<IMatche> => {
+    const response = await Matches.create(newMatchData);
+    return response;
   };
 }
 
