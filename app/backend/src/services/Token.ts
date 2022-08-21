@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 import { sign, verify } from 'jsonwebtoken';
+import ErrorHandler from '../utils/ErrorHandler';
 import { IUser, tokenData } from '../interface/IUser';
 
 config();
@@ -17,8 +18,14 @@ class Token {
   }
 
   static verifyToken(token: string): tokenData {
-    const { data }: any = verify(token, SECRET);
-    return data as tokenData;
+    let userData;
+    try {
+      const { data }: any = verify(token, SECRET);
+      userData = data;
+    } catch (error) {
+      ErrorHandler.invalidToken();
+    }
+    return userData as tokenData;
   }
 }
 
