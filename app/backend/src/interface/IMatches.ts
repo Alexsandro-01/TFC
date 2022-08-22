@@ -2,13 +2,17 @@ interface IMatchService {
   getAll(): Promise<IMatche[]>
   addNewMatch(newMatchData: ICreateMatche): Promise<ICreateMatche>
   finishMatch(id: IMatche['id']): Promise<void>
+  updateMatch(goals: UpdateMatch, id: number): Promise<void>
 }
 
-interface ICreateMatche {
-  homeTeam: number,
+interface UpdateMatch {
   homeTeamGoals: number,
-  awayTeam: number,
   awayTeamGoals: number,
+}
+
+interface ICreateMatche extends UpdateMatch {
+  homeTeam: number,
+  awayTeam: number,
 }
 interface IMatche extends ICreateMatche {
   id: number,
@@ -19,4 +23,5 @@ export {
   IMatchService,
   IMatche,
   ICreateMatche,
+  UpdateMatch,
 };

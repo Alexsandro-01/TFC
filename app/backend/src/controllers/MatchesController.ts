@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IMatchService } from '../interface/IMatches';
+import { IMatchService, UpdateMatch } from '../interface/IMatches';
 
 class MatchesController {
   constructor(private matchesService: IMatchService) { }
@@ -18,6 +18,20 @@ class MatchesController {
   finishMatch = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     await this.matchesService.finishMatch(Number(id));
+
+    res.status(200).json({ message: 'Finished' });
+  };
+
+  updateMaatch = async (req: Request, res: Response): Promise<void> => {
+    const goals: UpdateMatch = req.body;
+    const { id } = req.params;
+    await this.matchesService.updateMatch(
+      {
+        homeTeamGoals: Number(goals.homeTeamGoals),
+        awayTeamGoals: Number(goals.awayTeamGoals),
+      },
+      Number(id),
+    );
 
     res.status(200).json({ message: 'Finished' });
   };

@@ -2,7 +2,7 @@ import { ITeamsService } from '../interface/ITeams';
 import ErrorHandler from '../utils/ErrorHandler';
 import Matches from '../database/models/Matches';
 import Teams from '../database/models/Teams';
-import { IMatchService, IMatche, ICreateMatche } from '../interface/IMatches';
+import { IMatchService, IMatche, ICreateMatche, UpdateMatch } from '../interface/IMatches';
 
 class MatchesService implements IMatchService {
   constructor(private teamsService: ITeamsService) {}
@@ -41,6 +41,19 @@ class MatchesService implements IMatchService {
       {
         inProgress: false,
       },
+      {
+        where: {
+          id,
+        },
+      },
+    );
+  };
+
+  updateMatch = async (goals: UpdateMatch, id: number): Promise<void> => {
+    if (!goals.awayTeamGoals || !goals.homeTeamGoals) ErrorHandler.badRequest();
+
+    await Matches.update(
+      goals,
       {
         where: {
           id,
