@@ -1,9 +1,12 @@
+import { ITeamsService } from '../interface/ITeams';
 import ErrorHandler from '../utils/ErrorHandler';
 import Matches from '../database/models/Matches';
 import Teams from '../database/models/Teams';
 import { IMatchService, IMatche, ICreateMatche } from '../interface/IMatches';
 
 class MatchesService implements IMatchService {
+  constructor(private teamsService: ITeamsService) {}
+
   getAll = async (): Promise<IMatche[]> => {
     const response = await Matches.findAll({
       include: [
@@ -26,6 +29,8 @@ class MatchesService implements IMatchService {
   addNewMatch = async (newMatchData: ICreateMatche): Promise<IMatche> => {
     const { homeTeam, awayTeam } = newMatchData;
     if (homeTeam === awayTeam) ErrorHandler.equalteams();
+    await this.teamsService.getByPK(Number(homeTeam));
+    await this.teamsService.getByPK(Number(awayTeam));
 
     const response = await Matches.create(newMatchData);
     return response;

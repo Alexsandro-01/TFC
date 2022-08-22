@@ -22,6 +22,12 @@ class ErrorHandler {
     erro.name = 'unauthorized';
     throw erro;
   }
+
+  static notFound() {
+    const erro = new Error('There is no team with such id!');
+    erro.name = 'notFound';
+    throw erro;
+  }
 }
 
 export default ErrorHandler;

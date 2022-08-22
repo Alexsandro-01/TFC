@@ -6,6 +6,7 @@ class ErrorMiddleware {
     const erros: { [erroName: string]: number } = {
       badRequest: 400,
       unauthorized: 401,
+      notFound: 404,
     };
 
     const status = erros[name];
