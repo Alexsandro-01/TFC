@@ -1,6 +1,7 @@
 interface ILeaderboard {
   home(): Promise<LeaderObj[]>
   away(): Promise<LeaderObj[]>
+  all(): Promise<LeaderObj[]>
 }
 
 interface LeaderObj {

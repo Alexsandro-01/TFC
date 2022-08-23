@@ -131,18 +131,32 @@ class LeaderboardService implements ILeaderboard {
     }
   }
 
-  private countStatus = async (isHome: boolean): Promise<LeaderObj[]> => {
+  private filterGame(
+    filter: string,
+    teamId: ITeams['id'],
+    match: IMatche,
+    teamName: ITeams['teamName'],
+  ) {
+    if (filter === 'home') {
+      this.auxCompareHomeTeam(teamId, match, teamName);
+    }
+    if (filter === 'away') {
+      this.auxCompareIfAwayTeam(teamId, match, teamName);
+    }
+    if (filter === 'all') {
+      this.auxCompareHomeTeam(teamId, match, teamName);
+      this.auxCompareIfAwayTeam(teamId, match, teamName);
+    }
+  }
+
+  private countStatus = async (filter: string): Promise<LeaderObj[]> => {
     const teams = await this.getAll();
     const matches = await this.finishedMatches();
     let result: LeaderObj[] = [];
 
     for (let ind = 0; ind < teams.length; ind += 1) {
       for (let index = 0; index < matches.length; index += 1) {
-        if (isHome) {
-          this.auxCompareHomeTeam(teams[ind].id, matches[index], teams[ind].teamName);
-        } else {
-          this.auxCompareIfAwayTeam(teams[ind].id, matches[index], teams[ind].teamName);
-        }
+        this.filterGame(filter, teams[ind].id, matches[index], teams[ind].teamName);
       }
       this.multiplyStatus();
       result = [...result, this.baseLeaderObj]; // ad aos results
@@ -153,12 +167,17 @@ class LeaderboardService implements ILeaderboard {
   };
 
   public home = async (): Promise<LeaderObj[]> => {
-    const response = await this.countStatus(true);
+    const response = await this.countStatus('home');
     return response;
   };
 
   public away = async (): Promise<LeaderObj[]> => {
-    const response = await this.countStatus(false);
+    const response = await this.countStatus('away');
+    return response;
+  };
+
+  public all = async (): Promise<LeaderObj[]> => {
+    const response = await this.countStatus('all');
     return response;
   };
 }

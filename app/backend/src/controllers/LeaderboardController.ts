@@ -15,6 +15,12 @@ class LeaderboardController {
 
     res.status(200).json(leaderboard);
   };
+
+  public all = async (req: Request, res: Response): Promise<void> => {
+    const leaderboard = await this.leaderboardService.all();
+
+    res.status(200).json(leaderboard);
+  };
 }
 
 export default LeaderboardController;

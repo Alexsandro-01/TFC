@@ -7,6 +7,7 @@ const leaderboardController = new LeaderboardController(leaderboardService);
 
 const route = Router();
 
+route.get('/leaderboard', leaderboardController.all);
 route.get('/leaderboard/home', leaderboardController.home);
 route.get('/leaderboard/away', leaderboardController.away);
 
