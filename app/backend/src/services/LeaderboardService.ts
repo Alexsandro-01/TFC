@@ -70,6 +70,27 @@ class LeaderboardService implements ILeaderboard {
     }
   };
 
+  private compareIfAwayTeam = (match: IMatche): void => {
+    if (match.awayTeamGoals > match.homeTeamGoals) { // if winner
+      this.baseLeaderObj.totalPoints += 3;
+      this.baseLeaderObj.totalGames += 1;
+      this.baseLeaderObj.totalVictories += 1;
+      this.baseLeaderObj.goalsFavor += match.awayTeamGoals;
+      this.baseLeaderObj.goalsOwn += match.homeTeamGoals;
+    } else if (match.awayTeamGoals < match.homeTeamGoals) { // if loser
+      this.baseLeaderObj.totalGames += 1;
+      this.baseLeaderObj.totalLosses += 1;
+      this.baseLeaderObj.goalsFavor += match.awayTeamGoals;
+      this.baseLeaderObj.goalsOwn += match.homeTeamGoals;
+    } else { // if drawn
+      this.baseLeaderObj.totalPoints += 1;
+      this.baseLeaderObj.totalGames += 1;
+      this.baseLeaderObj.totalDraws += 1;
+      this.baseLeaderObj.goalsFavor += match.awayTeamGoals;
+      this.baseLeaderObj.goalsOwn += match.homeTeamGoals;
+    }
+  };
+
   private multiplyStatus = (): void => {
     const { goalsFavor, goalsOwn, totalPoints, totalGames } = this.baseLeaderObj;
     this.baseLeaderObj.goalsBalance = goalsFavor - goalsOwn;
@@ -96,21 +117,32 @@ class LeaderboardService implements ILeaderboard {
     return 0;
   };
 
-  private countStatus = async (): Promise<LeaderObj[]> => {
+  private auxCompareHomeTeam(teamId: ITeams['id'], match: IMatche, teamName: ITeams['teamName']) {
+    if (teamId === match.homeTeam) { // se time da casa
+      this.compareIfHomeTeam(match); // compara status
+      this.baseLeaderObj.name = teamName; // set nome do time
+    }
+  }
+
+  private auxCompareIfAwayTeam(teamId: ITeams['id'], match: IMatche, teamName: ITeams['teamName']) {
+    if (teamId === match.awayTeam) { // se time visitante
+      this.compareIfAwayTeam(match); // compara status
+      this.baseLeaderObj.name = teamName; // set nome do time
+    }
+  }
+
+  private countStatus = async (isHome: boolean): Promise<LeaderObj[]> => {
     const teams = await this.getAll();
     const matches = await this.finishedMatches();
     let result: LeaderObj[] = [];
 
     for (let ind = 0; ind < teams.length; ind += 1) {
       for (let index = 0; index < matches.length; index += 1) {
-        if (teams[ind].id === matches[index].homeTeam) { // se time da casa
-          this.compareIfHomeTeam(matches[index]); // compara status
-          this.baseLeaderObj.name = teams[ind].teamName; // set nome do time
+        if (isHome) {
+          this.auxCompareHomeTeam(teams[ind].id, matches[index], teams[ind].teamName);
+        } else {
+          this.auxCompareIfAwayTeam(teams[ind].id, matches[index], teams[ind].teamName);
         }
-      // if (teams[ind].id === matches[index].awayTeam) { // se time visitante
-      //   compareIfAwayTeam(matches[index]); // compara status
-      //   OBJ.name = teams[ind].teamName; // set nome do time
-      // }
       }
       this.multiplyStatus();
       result = [...result, this.baseLeaderObj]; // ad aos results
@@ -121,7 +153,12 @@ class LeaderboardService implements ILeaderboard {
   };
 
   public home = async (): Promise<LeaderObj[]> => {
-    const response = await this.countStatus();
+    const response = await this.countStatus(true);
+    return response;
+  };
+
+  public away = async (): Promise<LeaderObj[]> => {
+    const response = await this.countStatus(false);
     return response;
   };
 }
