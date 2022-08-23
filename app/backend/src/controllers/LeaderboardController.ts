@@ -9,6 +9,12 @@ class LeaderboardController {
 
     res.status(200).json(leaderbord);
   };
+
+  public away = async (req: Request, res: Response): Promise<void> => {
+    const leaderboard = await this.leaderboardService.away();
+
+    res.status(200).json(leaderboard);
+  };
 }
 
 export default LeaderboardController;
