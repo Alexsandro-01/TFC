@@ -23,6 +23,7 @@ export const validReturnUser = {
 }
 
 export const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiJ9LCJpYXQiOjE2NjA4NDU4OTl9.9B1sDV-UW7wW8x9t9c23en1sahU1BNmGU4y5HBPq-dQ'
+export const invalidToken = 'yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiJ9LCJpYXQiOjE2NjA4NDU4OTl9.9B1sDV-UW7wW8x9t9c23en1sahU1BNmGU4y5HBPq-dQ'
 
 // ================= Teams ============ //
 
@@ -125,3 +126,38 @@ export const matches = [
     }
   },
 ]
+
+export const updateMatch = {
+  "homeTeamGoals": 3,
+  "awayTeamGoals": 1
+}
+
+export const createMatch = {
+  "homeTeam": 16,
+  "awayTeam": 8,
+  "homeTeamGoals": 2,
+  "awayTeamGoals": 2
+}
+
+export const createMatchSameTeamId = {
+  "homeTeam": 8,
+  "awayTeam": 8,
+  "homeTeamGoals": 2,
+  "awayTeamGoals": 2
+}
+
+export const createMatchWithInvalidTeam = {
+  "homeTeam": 88,
+  "awayTeam": 8,
+  "homeTeamGoals": 2,
+  "awayTeamGoals": 2
+}
+
+export const resultCreateMatch = {
+  "id": 1,
+  "homeTeam": 16,
+  "homeTeamGoals": 2,
+  "awayTeam": 8,
+  "awayTeamGoals": 2,
+  "inProgress": true,
+}
