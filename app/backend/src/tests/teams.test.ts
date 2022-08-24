@@ -14,15 +14,6 @@ import { allTeams } from './mocks';
 import { ITeams } from '../interface/ITeams'
 
 describe('Behavior of the /teams route', () => {
-  // beforeEach(() => {
-  //   sinon.stub(Teams, 'findAll').resolves(allTeams as Teams[]);
-  // });
-
-  // before(() => {
-  //   const team = allTeams[0];
-  //   sinon.stub(Teams, 'findOne').resolves(team as Teams);
-  // })
-
   afterEach(sinon.restore);
 
   it('Should return all teams in database when access /teams route', async () => {
@@ -44,5 +35,15 @@ describe('Behavior of the /teams route', () => {
 
     const body = response.body;
     chai.expect(body).to.deep.equal(allTeams[0]);
+  });
+
+  it('Shoul return {} if not find team according to its id on /teams/:id', async () => {
+    sinon.stub(Teams, 'findOne').resolves({} as Teams);
+
+    const response: Response = await chai.request(app)
+      .get('/teams/19');
+
+    const body = response.body;
+    chai.expect(body).to.deep.equal({});
   });
 });
