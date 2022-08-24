@@ -182,8 +182,4 @@ class LeaderboardService implements ILeaderboard {
   };
 }
 
-// const a = new LeaderboardService();
-
-// a.home().then((data) => console.log(data));
-
 export default LeaderboardService;
