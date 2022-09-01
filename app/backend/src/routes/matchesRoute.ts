@@ -14,7 +14,7 @@ const teamsService = new TeamsService();
 const matchesService = new MatchesService(teamsService);
 const matchesController = new MatchesController(matchesService);
 
-route.get('/matches', matchesController.getAll);
+route.get('/matches?', matchesController.getMatches);
 route.post('/matches', authMiddleware.verifyUser, matchesController.addNewMatch);
 route.patch('/matches/:id', matchesController.updateMaatch);
 route.patch('/matches/:id/finish', authMiddleware.verifyUser, matchesController.finishMatch);

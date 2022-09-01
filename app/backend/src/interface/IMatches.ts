@@ -2,6 +2,8 @@ interface IMatchService {
   getAll(): Promise<IMatche[]>
   addNewMatch(newMatchData: ICreateMatche): Promise<ICreateMatche>
   finishMatch(id: IMatche['id']): Promise<void>
+  filterTypeMatch(trueOrFalse: string | undefined): Promise<IMatche[]>
+  getMatches(trueOrFalse: boolean): Promise<IMatche[]>
   updateMatch(goals: UpdateMatch, id: number): Promise<void>
 }
 

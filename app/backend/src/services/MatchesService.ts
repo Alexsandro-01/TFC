@@ -49,6 +49,35 @@ class MatchesService implements IMatchService {
     );
   };
 
+  filterTypeMatch = async (trueOrFalse: string | undefined): Promise<IMatche[]> => {
+    if (trueOrFalse) {
+      const bool = trueOrFalse === 'true';
+      return this.getMatches(bool);
+    }
+
+    return this.getAll();
+  };
+
+  getMatches = async (trueOrFalse: boolean): Promise<IMatche[]> => {
+    const inProgressMatches = await Matches.findAll({
+      where: { inProgress: trueOrFalse },
+      include: [
+        {
+          model: Teams,
+          as: 'teamHome',
+          attributes: { exclude: ['id'] },
+        },
+        {
+          model: Teams,
+          as: 'teamAway',
+          attributes: { exclude: ['id'] },
+        },
+      ],
+    });
+
+    return inProgressMatches;
+  };
+
   updateMatch = async (goals: UpdateMatch, id: number): Promise<void> => {
     if (!goals.awayTeamGoals || !goals.homeTeamGoals) ErrorHandler.badRequest();
 
